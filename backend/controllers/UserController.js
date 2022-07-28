@@ -51,12 +51,27 @@ module.exports = class UserController {
     }
 
     // check if user exists
-    const userExists = await User.findOne({ email: email });
+    /* const userExists = await User.findOne({ email: email });
 
     if (userExists) {
       res.status(422).json({ message: 'Por favor, utilize outro e-mail!' })
       return
+    } */
+
+    async function verifyUserExists() {
+      await User.findOne({ email: email})
     }
+
+    verifyUserExists()
+      .then(user => {
+        if (user) {
+          res.status(422).json({ message: 'E-mail já cadastrado!' })
+          return
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
 
     // create password
     const salt = await bcrypt.genSalt(12)

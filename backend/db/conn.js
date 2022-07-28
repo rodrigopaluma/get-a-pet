@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
-async function main() {
-    await mongoose.connect('mongodb://localhost:27017/get-a-pet')
-    console.log('Connected to Mongoose!');
+const connectDB = async () =>{
+    try{
+        await mongoose.connect('mongodb://localhost:27017/get-a-pet')   
+    }catch (err){
+        console.log(err)
+    }
 }
 
-main().catch((err) => console.log(err));
-
-module.exports = mongoose;
+module.exports = connectDB;

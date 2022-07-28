@@ -1,7 +1,14 @@
+
 const express = require('express');
 const cors = require('cors');
-
+const mongoose = require('mongoose');
+const connectDB = require('./db/conn');
 const app = express();
+
+// connect MongoDb
+
+connectDB();
+
 
 // Config JSON Response
 //app.use(express.urlencoded({ extended: true }));
@@ -19,5 +26,9 @@ const UserRoutes = require('./routes/UserRoutes')
 
 app.use('/pets', PetRoutes)
 app.use('/users', UserRoutes)
+
+mongoose.connection.once('open', () => {
+    console.log("Connect to MongoDB")
+})
 
 app.listen(5000)
